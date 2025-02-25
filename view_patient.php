@@ -1,11 +1,12 @@
 <?php
+
 require 'db.php';
 
 $search = isset($_GET['search']) ? $_GET['search'] : '';
-$query = "SELECT * FROM patients";
+$query = "SELECT id, name, dob, gender, phone_primary, email FROM patients";
 
 if ($search) {
-    $query .= " WHERE id LIKE :search OR name LIKE :search OR age LIKE :search";
+    $query .= " WHERE id LIKE :search OR name LIKE :search OR phone_primary LIKE :search OR email LIKE :search";
 }
 
 $stmt = $pdo->prepare($query);
@@ -28,7 +29,6 @@ $patients = $stmt->fetchAll();
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
             color: #333;
-            margin: 0;
             padding: 20px;
         }
         h1 {
@@ -79,51 +79,99 @@ $patients = $stmt->fetchAll();
         .actions a:hover {
             text-decoration: underline;
         }
+        .sidebar {
+            width: 200px;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: #fff;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .sidebar a {
+            display: block;
+            color: #fff;
+            padding: 10px;
+            text-decoration: none;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+        .sidebar a:hover {
+            background-color: #3498db;
+        }
+        .container {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
-    <h1>Patient List</h1>
-    
-    <form method="GET" action="view_patients.php">
-        <label for="search">Search:</label>
-        <input type="text" id="search" name="search" value="<?= htmlspecialchars($search) ?>">
-        <input type="submit" value="Search">
-    </form>
+    <div class="container">
+        <h1>Patient List</h1>
+        
+        <form method="GET" action="view_patients.php">
+            <label for="search">Search:</label>
+            <input type="text" id="search" name="search" value="<?= htmlspecialchars($search) ?>">
+            <input type="submit" value="Search">
+        </form>
 
-    <br>
-    <button onclick="window.location.href='add_patient.php'">Add Patient</button>
-    <br><br>
+        <br>
+        <button onclick="window.location.href='add_patient.php'">Add Patient</button>
+        <br><br>
 
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Actions</th>
-        </tr>
-        <?php if ($patients): ?>
-            <?php foreach ($patients as $patient): ?>
-                <tr>
-                    <td><?= htmlspecialchars($patient['id']) ?></td>
-                    <td><?= htmlspecialchars($patient['name']) ?></td>
-                    <td><?= htmlspecialchars($patient['age']) ?></td>
-                    <td class="actions">
-                        <a href="update_patient.php?id=<?= htmlspecialchars($patient['id']) ?>">Edit</a>
-                        <a href="#" onclick="confirmDelete(<?= htmlspecialchars($patient['id']) ?>)">Delete</a>
-                        <a href="view_soap.php?patient_id=<?= htmlspecialchars($patient['id']) ?>">SOAP Notes</a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        <?php else: ?>
+        <table border="1" cellspacing="0" cellpadding="5">
             <tr>
-                <td colspan="4">No patients found.</td>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Actions</th>
             </tr>
-        <?php endif; ?>
-    </table>
+            <?php if ($patients): ?>
+                <?php foreach ($patients as $patient): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($patient['id']) ?></td>
+                        <td><?= htmlspecialchars($patient['name']) ?></td>
+                        <td>
+                            <?php
+                            if ($patient['dob']) {
+                                $dob = new DateTime($patient['dob']);
+                                $today = new DateTime();
+                                $age = $today->diff($dob)->y;
+                                echo $age;
+                            } else {
+                                echo "N/A";
+                            }
+                            ?>
+                        </td>
+                        <td><?= htmlspecialchars(ucfirst($patient['gender'])) ?></td>
+                        <td><?= htmlspecialchars($patient['phone_primary']) ?></td>
+                        <td><?= htmlspecialchars($patient['email']) ?></td>
+                        <td class="actions">
+                            <a href="update_patient.php?id=<?= htmlspecialchars($patient['id']) ?>">Edit</a>
+                            <a href="#" onclick="confirmDelete(<?= htmlspecialchars($patient['id']) ?>)">Delete</a>
+                            <a href="view_soap.php?patient_id=<?= htmlspecialchars($patient['id']) ?>">SOAP Notes</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="7">No patients found.</td>
+                </tr>
+            <?php endif; ?>
+        </table>
 
-    <br>
-    <button onclick="window.location.href='index.php'">Back to Home</button>
-
+        <br>
+        <button onclick="window.location.href='index.php'">Back to Home</button>
+    </div>
     <script>
         function confirmDelete(id) {
             if (confirm('Are you sure you want to delete this patient?')) {
@@ -156,8 +204,9 @@ $patients = $stmt->fetchAll();
             rows.forEach(row => {
                 const id = row.cells[0].textContent.toLowerCase();
                 const name = row.cells[1].textContent.toLowerCase();
-                const age = row.cells[2].textContent.toLowerCase();
-                if (id.includes(searchValue) || name.includes(searchValue) || age.includes(searchValue)) {
+                const phone = row.cells[4].textContent.toLowerCase();
+                const email = row.cells[5].textContent.toLowerCase();
+                if (id.includes(searchValue) || name.includes(searchValue) || phone.includes(searchValue) || email.includes(searchValue)) {
                     row.style.display = '';
                 } else {
                     row.style.display = 'none';
