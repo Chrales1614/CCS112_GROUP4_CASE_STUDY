@@ -164,6 +164,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="container">
         <h1>Add SOAP Note</h1>
+        <button onclick="window.location.href='index.php'">Back to Home</button>
+        <br> <br> <br>
         <form method="post" action="">
             <div class="form-row">
                 <div class="form-group">
@@ -286,8 +288,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-group">
                 <input type="submit" value="Add SOAP Note">
             </div>
-            <br>
-            <button onclick="window.location.href='index.php'">Back to Home</button>
         </form>
     </div>
 </body>
