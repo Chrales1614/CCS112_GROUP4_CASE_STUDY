@@ -1,7 +1,5 @@
 <?php
-
 require 'db.php';
-
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
@@ -12,5 +10,4 @@ if (isset($_GET['id'])) {
         echo "error";
     }
 }
-
 ?>
