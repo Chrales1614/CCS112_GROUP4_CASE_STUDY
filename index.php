@@ -12,12 +12,18 @@ require 'db.php';
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
             text-align: center;
+        }
+        h1 {
+            color: #2c3e50;
         }
         .container {
             width: 50%;
-            margin: auto;
+            margin: 50%;
         }
         .nav {
             margin-bottom: 20px;
@@ -26,17 +32,18 @@ require 'db.php';
             margin: 0 10px;
             text-decoration: none;
             padding: 10px;
-            background: #3BBA9C;
+            background: #3498db;
             color: white;
             border-radius: 5px;
         }
         .nav a:hover {
-            background: #2E3047;
+            background: #2980b9;
         }
-        .nav a:hover {
-            background: #2E3047;
+        p {
+            margin-top: 20px;
         }
     </style>
+    
 </head>
 <body>
 
@@ -50,8 +57,8 @@ require 'db.php';
             <a href="view_soap.php">View SOAP Notes</a>
             <a href="logout.php">Logout</a>
         <?php else: ?>
-            <a href="login.html">Login</a>
-            <a href="register.html">Register</a>
+            <a href="login.php">Login</a>
+            <a href="register.php">Register</a>
         <?php endif; ?>
     </div>
 
