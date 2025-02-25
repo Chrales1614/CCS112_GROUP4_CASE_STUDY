@@ -5,7 +5,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
 $query = "SELECT * FROM patients";
 
 if ($search) {
-    $query .= " WHERE name LIKE :search";
+    $query .= " WHERE id LIKE :search OR name LIKE :search OR age LIKE :search";
 }
 
 $stmt = $pdo->prepare($query);
@@ -24,100 +24,58 @@ $patients = $stmt->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Patients</title>
     <style>
-        /* General Styles */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem;
-        }
-
-        h1 {
+            background-color: #f4f4f9;
             color: #333;
+            margin: 0;
+            padding: 20px;
         }
-
-        /* Form Styles */
+        h1 {
+            color: #2c3e50;
+        }
         form {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
+            margin-bottom: 20px;
         }
-
         input[type="text"] {
-            padding: 0.75rem;
+            padding: 10px;
             border: 1px solid #ccc;
-            border-radius: 20px;
-            font-size: 1rem;
-            width: 20rem;
+            border-radius: 4px;
+            width: 200px;
         }
-
-        input[type="submit"] {
-            padding: 0.75rem 1.5rem;
+        input[type="submit"], button {
+            padding: 10px 20px;
             border: none;
-            border-radius: 20px;
-            background-color: #007BFF;
+            border-radius: 4px;
+            background-color: #3498db;
             color: white;
-            font-size: 1rem;
             cursor: pointer;
-            transition: background 0.3s ease;
         }
-
-        input[type="submit"]:hover {
-            background-color: #0056b3;
+        input[type="submit"]:hover, button:hover {
+            background-color: #2980b9;
         }
-
-        /* Button Styles */
-        button {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 20px;
-            background-color: #28a745;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #218838;
-        }
-
-        /* Table Styles */
         table {
             width: 100%;
-            max-width: 800px;
             border-collapse: collapse;
-            margin-bottom: 2rem;
+            margin-top: 20px;
         }
-
-        table, th, td {
-            border: 1px solid #ccc;
-        }
-
         th, td {
-            padding: 1rem;
-            text-align: center;
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
         }
-
         th {
-            background-color: #f2f2f2;
-            color: #333;
+            background-color: #3498db;
+            color: white;
         }
-
         tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: #f2f2f2;
         }
-
-        /* Action Links */
         .actions a {
-            margin-right: 1rem;
-            color: #007BFF;
+            margin-right: 10px;
+            color: #3498db;
             text-decoration: none;
-            font-weight: bold;
         }
-
         .actions a:hover {
             text-decoration: underline;
         }
@@ -126,7 +84,7 @@ $patients = $stmt->fetchAll();
 <body>
     <h1>Patient List</h1>
     
-    <form method="GET" action="view_patient.php">
+    <form method="GET" action="view_patients.php">
         <label for="search">Search:</label>
         <input type="text" id="search" name="search" value="<?= htmlspecialchars($search) ?>">
         <input type="submit" value="Search">
@@ -174,7 +132,7 @@ $patients = $stmt->fetchAll();
                     .then(data => {
                         if (data === 'success') {
                             alert('Patient deleted successfully.');
-                            window.location.href = 'view_patient.php';
+                            window.location.href = 'view_patients.php';
                         } else {
                             alert('Error deleting patient.');
                         }
@@ -191,6 +149,21 @@ $patients = $stmt->fetchAll();
             alert('Patient updated successfully.');
             window.history.replaceState(null, null, window.location.pathname);
         }
+
+        document.getElementById('search').addEventListener('input', function() {
+            const searchValue = this.value.toLowerCase();
+            const rows = document.querySelectorAll('table tr:not(:first-child)');
+            rows.forEach(row => {
+                const id = row.cells[0].textContent.toLowerCase();
+                const name = row.cells[1].textContent.toLowerCase();
+                const age = row.cells[2].textContent.toLowerCase();
+                if (id.includes(searchValue) || name.includes(searchValue) || age.includes(searchValue)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
     </script>
 </body>
 </html>
