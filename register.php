@@ -5,8 +5,9 @@ require 'db.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $password = $_POST['password'];
+    $role = $_POST['role'];
 
-    if (filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($password)) {
+    if (filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($password) && !empty($role)) {
         // Check if email already exists
         $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
         $stmt->execute([$email]);
@@ -18,8 +19,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
             try {
-                $stmt = $pdo->prepare("INSERT INTO users (email, password) VALUES (?, ?)");
-                if ($stmt->execute([$email, $hashedPassword])) {
+                $stmt = $pdo->prepare("INSERT INTO users (email, password, role) VALUES (?, ?, ?)");
+                if ($stmt->execute([$email, $hashedPassword, $role])) {
                     header("Location: login.php");
                     exit();
                 } else {
@@ -30,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     } else {
-        echo "Invalid email or password.";
+        echo "Invalid email, password, or role.";
     }
 }
 
@@ -56,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         form {
             margin-bottom: 20px;
         }
-        input[type="email"], input[type="password"] {
+        input[type="email"], input[type="password"], select {
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -93,9 +94,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         a:hover {
             text-decoration: underline;
         }
+        /* Theme for doctor */
+        body.doctor {
+            background-color: #e8f5e9;
+        }
+        .doctor h2 {
+            color: #388e3c;
+        }
+        .doctor button {
+            background-color: #4caf50;
+        }
+        .doctor button:hover {
+            background-color: #388e3c;
+        }
+        /* Theme for nurse */
+        body.nurse {
+            background-color: #e3f2fd;
+        }
+        .nurse h2 {
+            color: #1976d2;
+        }
+        .nurse button {
+            background-color: #2196f3;
+        }
+        .nurse button:hover {
+            background-color: #1976d2;
+        }
     </style>
 </head>
-<body>
+<body class="<?php echo isset($_POST['role']) ? htmlspecialchars($_POST['role']) : ''; ?>">
     <div class="container">
         <h2>Register</h2>
         <form action="register.php" method="post">
@@ -106,6 +133,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="role">Role:</label>
+                <select id="role" name="role" required>
+                    <option value="">Select Role</option>
+                    <option value="doctor">Doctor</option>
+                    <option value="nurse">Nurse</option>
+                </select>
             </div>
             <button type="submit">Register</button>
         </form>

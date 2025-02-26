@@ -1,6 +1,18 @@
 <?php
 require 'db.php'; // Ensure db.php contains a secure PDO connection
 
+// Fetch patients from the database
+$patients = [];
+try {
+    $stmt = $pdo->query("SELECT id, name, dob, gender, phone_primary, email FROM patients");
+    $patients = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+
+$patient_id = isset($_GET['patient_id']) ? $_GET['patient_id'] : '';
+$patient_name = isset($_GET['patient_name']) ? $_GET['patient_name'] : '';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Collect and sanitize form data
     $data = [
@@ -159,6 +171,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         button:hover {
             background-color: #2980b9;
         }
+ 
     </style>
 </head>
 <body>
@@ -170,11 +183,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-row">
                 <div class="form-group">
                     <label>Patient ID:</label>
-                    <input type="text" name="patient_id" placeholder="Enter patient ID" required>
+                    <input type="text" id="patient_id" name="patient_id" value="<?php echo htmlspecialchars($patient_id); ?>" required readonly>
                 </div>
                 <div class="form-group">
                     <label>Patient Name:</label>
-                    <input type="text" name="patient_name" placeholder="Enter patient name" required>
+                    <input type="text" id="patient_name" name="patient_name" value="<?php echo htmlspecialchars($patient_name); ?>" required readonly>
                 </div>
             </div>
 
@@ -288,7 +301,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-group">
                 <input type="submit" value="Add SOAP Note">
             </div>
+            <?php
+            if ($_SERVER["REQUEST_METHOD"] == "POST" && $stmt->rowCount() > 0) {
+                echo "<script>window.location.href='view_soap.php';</script>";
+            }
+            ?>
         </form>
     </div>
 </body>
 </html>
+   

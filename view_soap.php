@@ -36,154 +36,165 @@ try {
     <title>SOAP Notes</title>
     <style>
         body {
-    font-family: 'Poppins', sans-serif;
-    background: #ecf0f3;
-    color: #333;
-    margin: 0;
-    padding: 20px;
-}
+            font-family: 'Poppins', sans-serif;
+            background: #ecf0f3;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
 
-h1, h2, h3 {
-    color: #2c3e50;
-}
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
 
-.container {
-    max-width: 900px;
-    background: #fff;
-    margin: 30px auto;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
-    transition: 0.3s ease-in-out;
-}
+        .container {
+            max-width: 900px;
+            background: #fff;
+            margin: 30px auto;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
+            transition: 0.3s ease-in-out;
+        }
 
-.container:hover {
-    transform: translateY(-5px);
-}
+        .container:hover {
+            transform: translateY(-5px);
+        }
 
-button {
-    background-color: #3498db;
-    color: white;
-    font-size: 1em;
-    font-weight: 600;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
+        button {
+            background-color: #3498db;
+            color: white;
+            font-size: 1em;
+            font-weight: 600;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
 
-button:hover {
-    background-color: #2980b9;
-    transform: scale(1.05);
-}
+        button:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
 
-.note {
-    background: #ffffff;
-    border-left: 5px solid #3498db;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 12px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in-out;
-}
+        .note {
+            background: #ffffff;
+            border-left: 5px solid #3498db;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
 
-.note:hover {
-    transform: translateY(-3px);
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
-}
+        .note:hover {
+            transform: translateY(-3px);
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+        }
 
-.note-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid #3498db;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-}
+        .note-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
 
-.note-header h2 {
-    font-size: 1.8em;
-    color: #2c3e50;
-    margin: 0;
-}
+        .note-header h2 {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin: 0;
+        }
 
-small {
-    font-size: 0.9em;
-    color: #7f8c8d;
-}
+        small {
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
 
-#pagination {
-    text-align: center;
-    margin-top: 30px;
-}
+        #pagination {
+            text-align: center;
+            margin-top: 30px;
+        }
 
-#pagination a {
-    display: inline-block;
-    text-decoration: none;
-    background-color: #fff;
-    color: #3498db;
-    padding: 10px 15px;
-    margin: 0 5px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-weight: bold;
-    transition: all 0.3s ease-in-out;
-}
+        #pagination a {
+            display: inline-block;
+            text-decoration: none;
+            background-color: #fff;
+            color: #3498db;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+        }
 
-#pagination a.active {
-    background-color: #3498db;
-    color: #fff;
-}
+        #pagination a.active {
+            background-color: #3498db;
+            color: #fff;
+        }
 
-#pagination a:hover {
-    background-color: #2980b9;
-    color: #fff;
-    transform: scale(1.1);
-}
+        #pagination a:hover {
+            background-color: #2980b9;
+            color: #fff;
+            transform: scale(1.1);
+        }
 
-.form-container {
-    background: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
-}
+        .form-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
 
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
 
-label {
-    font-weight: bold;
-    font-size: 1.1em;
-}
+        label {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
 
-select, button {
-    padding: 12px;
-    font-size: 1em;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-}
+        select, button {
+            padding: 12px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
 
-select {
-    background: #fff;
-    color: #333;
-    cursor: pointer;
-}
+        select {
+            background: #fff;
+            color: #333;
+            cursor: pointer;
+        }
 
-button {
-    background-color: #3498db;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-}
+        button {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+        }
 
-button:hover {
-    background-color: #2980b9;
-}
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        p {
+            font-size: 1em;
+            line-height: 1.6;
+            color: #34495e;
+            margin-bottom: 15px;
+            padding: 2%;
+            background:rgb(255, 255, 255);
+            border-left: 5px solid #3498db;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>

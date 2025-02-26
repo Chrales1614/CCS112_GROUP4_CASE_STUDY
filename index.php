@@ -13,51 +13,78 @@ require 'db.php';
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
+            background: url('https://source.unsplash.com/1600x900/?medical') no-repeat center center fixed;
+            background-size: cover;
             color: #333;
             margin: 0;
             padding: 0;
         }
         .container {
-            max-width: 1000px;
-            margin: 50px auto;
-            background: #ffffff;
-            padding: 30px;
+            max-width: 800px;
+            margin: 5px auto;
+            padding: 200px;
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         h1 {
             color: #2c3e50;
             margin-bottom: 20px;
+            text-align: center;
         }
         .nav {
             display: flex;
-            justify-content: space-around;
+            flex-direction: row;
             background: #3498db;
             padding: 10px 0;
             border-radius: 5px;
             margin-bottom: 20px;
+            justify-content: space-around;
         }
-        .nav a {
+        .nav form {
+            margin: 0;
+        }
+        .nav button {
+            background: url('https://source.unsplash.com/1600x900/?medical') no-repeat center center;
+            background-size: cover;
+            border: none;
             color: white;
             text-decoration: none;
-            padding: 12px 20px;
+            padding: 20px;
             font-size: 16px;
             font-weight: bold;
-            transition: background 0.3s;
+            transition: background 0.3s, transform 0.3s;
             border-radius: 5px;
             display: flex;
             align-items: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            justify-content: center;
         }
-        .nav a i {
+        .nav button i {
             margin-right: 8px;
         }
-        .nav a:hover {
-            background: #2980b9;
+        .nav button:hover {
+            background-position: right center;
+            transform: translateX(10px);
+        }
+        .nav button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            z-index: -1;
+            transform: translateZ(-1px) scale(2);
+            filter: blur(10px);
         }
         .welcome-text {
             font-size: 18px;
             margin-bottom: 20px;
+            text-align: center;
         }
         .footer {
             margin-top: 30px;
@@ -74,14 +101,25 @@ require 'db.php';
     
     <div class="nav">
         <?php if (isset($_SESSION['user_id'])): ?>
-            <a href="view_patients.php"><i class="fas fa-users"></i> Patients</a>
-            <a href="add_patient.php"><i class="fas fa-user-plus"></i> Add Patient</a>
-            <a href="add_soap.php"><i class="fas fa-notes-medical"></i> New SOAP Note</a>
-            <a href="view_soap.php"><i class="fas fa-file-medical-alt"></i> SOAP Notes</a>
-            <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <form action="view_patients.php" method="get">
+                <button type="submit"><i class="fas fa-users"></i> Patients</button>
+            </form>
+            <form action="add_patient.php" method="get">
+                <button type="submit"><i class="fas fa-user-plus"></i> Add Patient</button>
+            </form>
+            <form action="view_soap.php" method="get">
+                <button type="submit"><i class="fas fa-file-medical-alt"></i> SOAP Notes</button>
+            </form>
+            <form action="logout.php" method="get">
+                <button type="submit"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </form>
         <?php else: ?>
-            <a href="login.php"><i class="fas fa-sign-in-alt"></i> Login</a>
-            <a href="register.php"><i class="fas fa-user-plus"></i> Register</a>
+            <form action="login.php" method="get">
+                <button type="submit"><i class="fas fa-sign-in-alt"></i> Login</button>
+            </form>
+            <form action="register.php" method="get">
+                <button type="submit"><i class="fas fa-user-plus"></i> Register</button>
+            </form>
         <?php endif; ?>
     </div>
 

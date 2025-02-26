@@ -156,9 +156,10 @@ $patients = $stmt->fetchAll();
                         <td><?= htmlspecialchars($patient['phone_primary']) ?></td>
                         <td><?= htmlspecialchars($patient['email']) ?></td>
                         <td class="actions">
-                            <a href="update_patient.php?id=<?= htmlspecialchars($patient['id']) ?>">Edit</a>
-                            <a href="#" onclick="confirmDelete(<?= htmlspecialchars($patient['id']) ?>)">Delete</a>
-                            <a href="view_soap.php?patient_id=<?= htmlspecialchars($patient['id']) ?>">SOAP Notes</a>
+                            <button onclick="window.location.href='update_patient.php?id=<?= htmlspecialchars($patient['id']) ?>'">Edit</button>
+                            <button onclick="confirmDelete(<?= htmlspecialchars($patient['id']) ?>)">Delete</button>
+                            <button onclick="window.location.href='view_soap.php?patient_id=<?= htmlspecialchars($patient['id']) ?>'">SOAP Notes</button>
+                            <button onclick="window.location.href='add_soap.php?patient_id=<?= htmlspecialchars($patient['id']) ?>&patient_name=<?= htmlspecialchars($patient['name']) ?>'">Add SOAP Note</button>
                         </td>
                     </tr>
                 <?php endforeach; ?>

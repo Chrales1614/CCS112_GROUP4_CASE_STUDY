@@ -145,7 +145,7 @@ if (!$patient) {
                 <input type="email" name="email" id="email" value="<?= htmlspecialchars($patient['email']) ?>" required>
             </div>
             <div class="btn-container">
-                <button type="button" class="btn-secondary" onclick="window.location.href='index.php'">Back to Home</button>
+                <button type="button" class="btn-secondary" onclick="window.location.href='view_patients.php'">Back</button>
                 <button type="submit" class="btn-primary">Update Patient</button>
             </div>
         </form>
